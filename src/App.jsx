@@ -3,6 +3,7 @@ import SideNav from "./components/Sidebar";
 import QuestionPanel from "./components/QuestionPanel";
 import CodeEditorPanel from "./components/CodeEditorPanel";
 import TestCases from "./components/TestCases";
+import VerticalDragger from "./components/VerticalDragger";
 import React, { useState } from "react";
 
 const LANGUAGE_TEMPLATES = {
@@ -14,6 +15,8 @@ const LANGUAGE_TEMPLATES = {
 const TOTAL_QUESTIONS = 3;
 const MIN_TEST_CASE_HEIGHT = 120;
 const MIN_EDITOR_HEIGHT = 120;
+const MIN_QUESTION_PANEL_WIDTH = 320; // Minimum width for question panel
+const MIN_CODE_PANEL_WIDTH = 350; // Minimum width for code editor panel
 
 const App = () => {
   const [code, setCode] = useState(LANGUAGE_TEMPLATES["Java"]);
@@ -21,6 +24,7 @@ const App = () => {
   const [testCaseHeight, setTestCaseHeight] = useState(260);
   const [activeQuestion, setActiveQuestion] = useState(1);
   const [containerHeight, setContainerHeight] = useState(window.innerHeight - 120); // 120px header/spacing approx
+  const [questionPanelWidth, setQuestionPanelWidth] = useState(450); // default width for question panel
 
   React.useEffect(() => {
     const handleResize = () => {
@@ -44,9 +48,23 @@ const App = () => {
     });
   };
 
+  // Vertical dragger for resizing question panel
+  const handleVerticalDrag = (diff) => {
+    setQuestionPanelWidth((w) => {
+      const newWidth = Math.max(MIN_QUESTION_PANEL_WIDTH, w + diff);
+      const maxWidth = window.innerWidth - MIN_CODE_PANEL_WIDTH - 100; // 100px buffer for right panel
+      return Math.min(newWidth, maxWidth);
+    });
+  };
+
   const handleRun = () => {
     // Placeholder for run logic
     alert("Run code!\n\n" + code);
+  };
+
+  const handleSubmit = () => {
+    // Placeholder for submit logic
+    alert("Submit code!\n\n" + code);
   };
 
   // Question navigation handlers
@@ -61,28 +79,52 @@ const App = () => {
   const editorHeight = containerHeight - testCaseHeight;
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen relative">
       <SideNav activeQuestion={activeQuestion} totalQuestions={TOTAL_QUESTIONS} onNext={goToNext} />
       <div className="flex-1 flex flex-col bg-gray-50">
         <HeaderBar onPrev={goToPrev} onNext={goToNext} />
-        <div className="flex flex-1 overflow-hidden p-4 gap-4">
-          {/* Left: Scrollable QuestionPanel */}
-          <div className="flex-1 min-w-[350px] max-w-xl h-full overflow-y-auto">
-            <QuestionPanel />
-          </div>
-          {/* Right: Code Editor and Test Cases stacked */}
-          <div className="flex-1 flex flex-col h-full min-w-[350px]">
-            <CodeEditorPanel
-              code={code}
-              setCode={setCode}
-              language={language}
-              setLanguage={handleLanguageChange}
-              onRun={handleRun}
-              editorHeight={editorHeight}
-            />
-            <TestCases height={testCaseHeight} onDrag={handleTestCaseDrag} />
+        <div className="flex flex-1 overflow-hidden p-4 gap-4 pb-20">
+          <div className="flex-1 flex gap-0 h-full overflow-y-auto">
+            {/* Left: Scrollable QuestionPanel with resizable width */}
+            <div style={{width: questionPanelWidth, minWidth: MIN_QUESTION_PANEL_WIDTH, maxWidth: '60%'}} className="h-full flex flex-col">
+              <div className="flex-1 overflow-y-auto">
+                <QuestionPanel />
+              </div>
+            </div>
+            {/* Vertical dragger between panels */}
+            <VerticalDragger onDrag={handleVerticalDrag} />
+            {/* Right: Code Editor and Test Cases stacked */}
+            <div style={{minWidth: MIN_CODE_PANEL_WIDTH, flex: 1}} className="flex flex-col h-full">
+              <CodeEditorPanel
+                code={code}
+                setCode={setCode}
+                language={language}
+                setLanguage={handleLanguageChange}
+                onRun={handleRun}
+                onSubmit={handleSubmit}
+                editorHeight={editorHeight}
+                showSubmitButton={false} // Hide submit button in editor
+              />
+              <div className="flex flex-col" style={{height: testCaseHeight}}>
+                <TestCases height={testCaseHeight} onDrag={handleTestCaseDrag} />
+              </div>
+            </div>
           </div>
         </div>
+        {/* Submit button: bottom left, outside question panel */}
+        <button
+          className="fixed left-24 bottom-1.5 bg-red-500 text-white px-6 py-2 rounded font-semibold shadow-lg z-50"
+          onClick={handleSubmit}
+        >
+          Submit
+        </button>
+        {/* Mark for Review button: bottom right, outside test case area */}
+        <button
+          className="fixed right-14 bottom-1.5 bg-pink-100 text-rose-500 border border-rose-400 px-6 py-2 rounded font-semibold shadow-lg z-50"
+          onClick={() => alert('Marked for review!')}
+        >
+          Mark for Review
+        </button>
       </div>
     </div>
   );

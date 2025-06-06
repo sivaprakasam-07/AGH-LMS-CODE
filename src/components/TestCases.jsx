@@ -52,7 +52,7 @@ const TestCases = ({ height, onDrag }) => {
   }, [dragging]);
 
   return (
-    <div className="bg-white rounded-lg shadow p-0 mt-2 flex flex-col" style={{ height }}>
+    <div className="bg-white rounded-lg shadow p-0 mt-2 flex flex-col relative h-full" style={{ height }}>
       <div
         className="flex items-center justify-center cursor-ns-resize py-1 border-b bg-gray-700 rounded-t-lg"
         onMouseDown={handleMouseDown}
@@ -81,7 +81,7 @@ const TestCases = ({ height, onDrag }) => {
           Custom Input
         </button>
       </div>
-      <div className="flex-1 overflow-y-auto px-4 pb-4">
+      <div className="flex-1 overflow-y-auto px-4 pb-0">
         {activeTab === "Test Cases" && (
           EXAMPLES.map((ex, idx) => (
             <div key={idx} className="bg-gray-100 rounded p-3 mb-3">
@@ -106,7 +106,8 @@ const TestCases = ({ height, onDrag }) => {
         )}
       </div>
     </div>
+    
   );
-};
+};  
 
 export default TestCases;

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Play, RotateCcw, Settings } from "lucide-react";
+import { Play, RotateCcw, Settings, Send } from "lucide-react";
 
 const LANGUAGE_TEMPLATES = {
   Java: `#include <iostream>\nusing namespace std;\n\nvoid printNewLine() {\n    \n}`,
@@ -7,11 +7,11 @@ const LANGUAGE_TEMPLATES = {
   "C++": `#include <iostream>\nusing namespace std;\n\nvoid printNewLine() {\n    \n}`
 };
 
-const CodeEditorPanel = ({ code, setCode, language, setLanguage, onRun, editorHeight }) => {
+const CodeEditorPanel = ({ code, setCode, language, setLanguage, onRun, onSubmit, editorHeight, showSubmitButton }) => {
   return (
     <div
-      className="bg-zinc-900 rounded-lg shadow p-0 flex flex-col min-h-[120px] overflow-hidden"
-      style={{ height: editorHeight, transition: 'height 0.1s' }}
+      className="bg-zinc-900 rounded-lg shadow p-0 flex flex-col min-h-[120px] overflow-hidden flex-1"
+      style={{ height: editorHeight || 'auto', transition: 'height 0.1s' }}
     >
       {/* Header row: Code logo, Reset, Settings */}
       <div className="flex items-center justify-between px-4 py-2 border-b border-zinc-800">
@@ -39,21 +39,12 @@ const CodeEditorPanel = ({ code, setCode, language, setLanguage, onRun, editorHe
       </div>
       {/* Code editor */}
       <textarea
-        className="bg-zinc-800 text-gray-100 font-mono rounded-none p-4 flex-1 resize-none outline-none overflow-auto min-h-[80px]"
+        className="bg-zinc-800 text-gray-100 font-mono rounded-none p-4 flex-1 resize-none outline-none overflow-auto min-h-[80px] max-h-full"
         value={code}
         onChange={e => setCode(e.target.value)}
         spellCheck={false}
         style={{ fontSize: 15 }}
       />
-      <div className="flex justify-end items-center px-4 py-2 border-t border-zinc-800">
-        <button
-          className="bg-emerald-500 text-white px-6 py-2 rounded font-semibold flex items-center gap-2"
-          onClick={onRun}
-        >
-          <Play size={18} />
-          <span>Run</span>
-        </button>
-      </div>
     </div>
   );
 };
