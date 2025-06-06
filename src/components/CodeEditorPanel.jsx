@@ -1,22 +1,57 @@
-import React from 'react';
+import React, { useState } from "react";
+import { Play, RotateCcw, Settings } from "lucide-react";
 
-const CodeEditorPanel = () => {
+const LANGUAGE_TEMPLATES = {
+  Java: `#include <iostream>\nusing namespace std;\n\nvoid printNewLine() {\n    \n}`,
+  Python: `def print_new_line():\n    pass`,
+  "C++": `#include <iostream>\nusing namespace std;\n\nvoid printNewLine() {\n    \n}`
+};
+
+const CodeEditorPanel = ({ code, setCode, language, setLanguage, onRun, editorHeight }) => {
   return (
-    <div className="bg-zinc-900 rounded-lg shadow p-4 flex-1 min-h-[300px] flex flex-col">
-      <div className="flex items-center justify-between mb-2">
-        <span className="text-gray-300 font-semibold">&lt;/&gt; Code</span>
-        <select className="bg-zinc-800 text-white rounded px-2 py-1 text-sm">
-          <option>Java</option>
-          <option>Python</option>
-          <option>C++</option>
+    <div
+      className="bg-zinc-900 rounded-lg shadow p-0 flex flex-col min-h-[120px] overflow-hidden"
+      style={{ height: editorHeight, transition: 'height 0.1s' }}
+    >
+      {/* Header row: Code logo, Reset, Settings */}
+      <div className="flex items-center justify-between px-4 py-2 border-b border-zinc-800">
+        <span className="text-gray-300 font-semibold flex items-center gap-2">&lt;/&gt; Code</span>
+        <div className="flex items-center gap-4">
+          <button className="text-gray-400 hover:text-gray-200" title="Reset">
+            <RotateCcw size={18} />
+          </button>
+          <button className="text-gray-400 hover:text-gray-200" title="Settings">
+            <Settings size={18} />
+          </button>
+        </div>
+      </div>
+      {/* Language selector below header */}
+      <div className="px-4 py-2 border-b border-zinc-800 bg-zinc-900">
+        <select
+          className="bg-zinc-800 text-white rounded px-2 py-1 text-sm"
+          value={language}
+          onChange={e => setLanguage(e.target.value)}
+        >
+          {Object.keys(LANGUAGE_TEMPLATES).map(lang => (
+            <option key={lang} value={lang}>{lang}</option>
+          ))}
         </select>
       </div>
-      <pre className="bg-zinc-800 text-gray-100 rounded p-3 min-h-[180px] overflow-x-auto flex-1">
-        <code>{`#include <iostream>\nusing namespace std;\n\nvoid printNewLine() {\n    \n}`}</code>
-      </pre>
-      <div className="flex justify-end mt-2">
-        <button className="bg-emerald-500 text-white px-6 py-2 rounded font-semibold flex items-center gap-2">
-          <span>Submit</span>
+      {/* Code editor */}
+      <textarea
+        className="bg-zinc-800 text-gray-100 font-mono rounded-none p-4 flex-1 resize-none outline-none overflow-auto min-h-[80px]"
+        value={code}
+        onChange={e => setCode(e.target.value)}
+        spellCheck={false}
+        style={{ fontSize: 15 }}
+      />
+      <div className="flex justify-end items-center px-4 py-2 border-t border-zinc-800">
+        <button
+          className="bg-emerald-500 text-white px-6 py-2 rounded font-semibold flex items-center gap-2"
+          onClick={onRun}
+        >
+          <Play size={18} />
+          <span>Run</span>
         </button>
       </div>
     </div>
