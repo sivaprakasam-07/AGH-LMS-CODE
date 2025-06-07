@@ -79,22 +79,27 @@ const App = () => {
   const editorHeight = containerHeight - testCaseHeight;
 
   return (
-    <div className="flex min-h-screen relative">
-      <SideNav activeQuestion={activeQuestion} totalQuestions={TOTAL_QUESTIONS} onNext={goToNext} />
-      <div className="flex-1 flex flex-col bg-gray-50">
+    <div className="flex min-h-screen h-screen max-h-screen overflow-hidden relative flex-col md:flex-row">
+      {/* Sidebar: hidden on mobile */}
+      <div className="hidden md:block">
+        <SideNav activeQuestion={activeQuestion} totalQuestions={TOTAL_QUESTIONS} onNext={goToNext} />
+      </div>
+      <div className="flex-1 flex flex-col bg-gray-50 w-full h-full max-h-screen overflow-hidden">
         <HeaderBar onPrev={goToPrev} onNext={goToNext} />
-        <div className="flex flex-1 overflow-hidden p-4 gap-4 pb-20">
-          <div className="flex-1 flex gap-0 h-full overflow-y-auto">
+        <div className="flex flex-1 overflow-hidden p-0 md:p-4 gap-0 md:gap-4 pb-20 flex-col md:flex-row">
+          <div className="flex-1 flex gap-0 h-full overflow-y-auto flex-col md:flex-row">
             {/* Left: Scrollable QuestionPanel with resizable width */}
-            <div style={{width: questionPanelWidth, minWidth: MIN_QUESTION_PANEL_WIDTH, maxWidth: '60%'}} className="h-full flex flex-col">
+            <div style={{width: questionPanelWidth, minWidth: MIN_QUESTION_PANEL_WIDTH, maxWidth: '100%'}} className="h-full flex flex-col w-full md:w-auto">
               <div className="flex-1 overflow-y-auto">
                 <QuestionPanel />
               </div>
             </div>
-            {/* Vertical dragger between panels */}
-            <VerticalDragger onDrag={handleVerticalDrag} />
+            {/* Vertical dragger between panels: hidden on mobile */}
+            <div className="hidden md:block">
+              <VerticalDragger onDrag={handleVerticalDrag} />
+            </div>
             {/* Right: Code Editor and Test Cases stacked */}
-            <div style={{minWidth: MIN_CODE_PANEL_WIDTH, flex: 1}} className="flex flex-col h-full">
+            <div style={{minWidth: MIN_CODE_PANEL_WIDTH, flex: 1}} className="flex flex-col h-full w-full md:w-auto">
               <CodeEditorPanel
                 code={code}
                 setCode={setCode}
@@ -111,20 +116,21 @@ const App = () => {
             </div>
           </div>
         </div>
-        {/* Submit button: bottom left, outside question panel */}
-        <button
-          className="fixed left-24 bottom-1.5 bg-red-500 text-white px-6 py-2 rounded font-semibold shadow-lg z-50"
-          onClick={handleSubmit}
-        >
-          Submit
-        </button>
-        {/* Mark for Review button: bottom right, outside test case area */}
-        <button
-          className="fixed right-14 bottom-1.5 bg-pink-100 text-rose-500 border border-rose-400 px-6 py-2 rounded font-semibold shadow-lg z-50"
-          onClick={() => alert('Marked for review!')}
-        >
-          Mark for Review
-        </button>
+        {/* Submit/Review Buttons Footer */}
+        <div className="w-full bg-white border-t border-gray-200 flex justify-between gap-2 px-4 py-2 fixed md:static left-0 bottom-0 z-50">
+          <button
+            className="flex-1 md:flex-none md:max-w-xs bg-red-500 text-white px-5 py-2 rounded-none md:rounded font-semibold shadow-lg order-1"
+            onClick={handleSubmit}
+          >
+            Submit
+          </button>
+          <button
+            className="flex-1 md:flex-none md:max-w-xs bg-pink-100 text-rose-500 border border-rose-400 px-5 py-2 rounded-none md:rounded font-semibold shadow-lg order-2 md:ml-auto"
+            onClick={() => alert('Marked for review!')}
+          >
+            Mark for Review
+          </button>
+        </div>
       </div>
     </div>
   );
