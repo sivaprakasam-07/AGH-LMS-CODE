@@ -65,24 +65,6 @@ const CodeEditorPanel = ({ code, setCode, language, setLanguage, onRun, onSubmit
             <option key={lang} value={lang}>{lang}</option>
           ))}
         </select>
-        <div className="flex gap-2 mt-2 md:mt-0 w-full md:w-auto">
-          <button
-            className="bg-green-500 hover:bg-green-600 text-white rounded px-3 py-1 flex items-center gap-1 text-sm font-semibold shadow w-1/2 md:w-auto justify-center"
-            onClick={onRun}
-            title="Run Code"
-          >
-            <FontAwesomeIcon icon={faPlay} />
-            <span className="hidden md:inline">Run</span>
-          </button>
-          <button
-            className="bg-blue-500 hover:bg-blue-600 text-white rounded px-3 py-1 flex items-center gap-1 text-sm font-semibold shadow w-1/2 md:w-auto justify-center"
-            onClick={onSubmit}
-            title="Submit Code"
-          >
-            <FontAwesomeIcon icon={faPaperPlane} />
-            <span className="hidden md:inline">Submit</span>
-          </button>
-        </div>
       </div>
       {/* Code editor with syntax highlighting always visible */}
       <div className="relative flex-1 min-h-[80px] max-h-full overflow-auto w-full" onClick={handleEditorClick}>
@@ -104,6 +86,25 @@ const CodeEditorPanel = ({ code, setCode, language, setLanguage, onRun, onSubmit
             style={{ fontSize: 15 }}
           />
         )}
+        {/* Run and Submit buttons fixed to bottom right of code editor */}
+        <div className="absolute bottom-4 right-4 flex gap-2 z-20">
+          <button
+            className="bg-green-500 hover:bg-green-600 text-white rounded p-2 flex items-center justify-center shadow"
+            onClick={onRun}
+            title="Run Code"
+            style={{ minWidth: 44, minHeight: 44 }}
+          >
+            <FontAwesomeIcon icon={faPlay} size="lg" />
+          </button>
+          <button
+            className="bg-green-500 hover:bg-green-600 text-white rounded px-4 py-0.5 font-semibold shadow flex items-center gap-2"
+            onClick={onSubmit}
+            title="Submit Code"
+          >
+            <FontAwesomeIcon icon={faPaperPlane} />
+            <span className="hidden md:inline">Submit</span>
+          </button>
+        </div>
       </div>
     </div>
   );

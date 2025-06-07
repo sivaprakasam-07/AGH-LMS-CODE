@@ -5,6 +5,8 @@ import CodeEditorPanel from "./components/CodeEditorPanel";
 import TestCases from "./components/TestCases";
 import VerticalDragger from "./components/VerticalDragger";
 import React, { useState } from "react";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const LANGUAGE_TEMPLATES = {
   Java: `#include <iostream>\nusing namespace std;\n\nvoid printNewLine() {\n    \n}`,
@@ -59,12 +61,13 @@ const App = () => {
 
   const handleRun = () => {
     // Placeholder for run logic
-    alert("Run code!\n\n" + code);
+    toast.info('Code Running', { position: 'top-right' });
   };
 
   const handleSubmit = () => {
+    toast.success('Code submitted successfully!', { position: 'top-right' });
     // Placeholder for submit logic
-    alert("Submit code!\n\n" + code);
+    // alert("Submit code!\n\n" + code);
   };
 
   // Question navigation handlers
@@ -126,11 +129,12 @@ const App = () => {
           </button>
           <button
             className="flex-1 md:flex-none md:max-w-xs bg-pink-100 text-rose-500 border border-rose-400 px-5 py-2 rounded-none md:rounded font-semibold shadow-lg order-2 md:ml-auto"
-            onClick={() => alert('Marked for review!')}
+            onClick={() => toast.info('Marked for review!', { position: 'top-right' })}
           >
             Mark for Review
           </button>
         </div>
+        <ToastContainer />
       </div>
     </div>
   );
