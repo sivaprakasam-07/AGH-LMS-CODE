@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import { DraggerWrapper, DraggerHandle } from "./VerticalDragger.styles";
 
 const VerticalDragger = ({ onDrag }) => {
   const dragRef = useRef(null);
@@ -27,14 +28,12 @@ const VerticalDragger = ({ onDrag }) => {
   };
 
   return (
-    <div
-      className="cursor-ew-resize bg-zinc-300 hover:bg-zinc-400 transition w-2 h-full flex-shrink-0 relative z-10"
-      style={{ minWidth: 8, maxWidth: 8 }}
-      onMouseDown={handleMouseDown}
-    >
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-1 h-16 bg-zinc-400 rounded-full" />
-    </div>
+    <DraggerWrapper onMouseDown={handleMouseDown}>
+      <DraggerHandle />
+    </DraggerWrapper>
   );
 };
 
 export default VerticalDragger;
+
+
