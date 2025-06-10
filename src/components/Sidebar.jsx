@@ -1,4 +1,5 @@
-import { ChevronRight } from "lucide-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import {
   SideBarWrapper,
   QuestionsContainer,
@@ -24,7 +25,7 @@ const SideNav = ({ activeQuestion = 1, totalQuestions = 3, onNext }) => {
 
       {/* Bottom Button */}
       <NextButton onClick={onNext}>
-        <ChevronRight size={24} />
+        <FontAwesomeIcon icon={faChevronRight} size="lg" />
       </NextButton>
     </SideBarWrapper>
   );

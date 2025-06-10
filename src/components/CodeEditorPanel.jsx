@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { RotateCcw, Settings } from "lucide-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRotateLeft, faCog, faPlay, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlay, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import {
   EditorContainer,
   Header,
@@ -58,10 +57,10 @@ const CodeEditorPanel = ({
         <HeaderTitle>&lt;/&gt; Code</HeaderTitle>
         <ButtonGroup>
           <IconButton onClick={handleReset} title="Reset">
-            <RotateCcw size={18} />
+            <FontAwesomeIcon icon={faRotateLeft} size="lg" />
           </IconButton>
           <IconButton title="Settings">
-            <Settings size={18} />
+            <FontAwesomeIcon icon={faCog} size="lg" />
           </IconButton>
         </ButtonGroup>
       </Header>

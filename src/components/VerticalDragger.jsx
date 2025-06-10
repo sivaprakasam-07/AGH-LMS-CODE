@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { DraggerWrapper, DraggerHandle } from "./VerticalDragger.styles";
+import { DraggerWrapper, DraggerHandle } from "./VerticalDragger.styles.js";
 
 const VerticalDragger = ({ onDrag }) => {
   const dragRef = useRef(null);

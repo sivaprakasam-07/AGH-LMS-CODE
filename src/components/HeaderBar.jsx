@@ -1,25 +1,26 @@
-import { ChevronLeft, ChevronRight, Timer } from "lucide-react";
-import { Container, Button, TimerWrapper } from "./HeaderBar.styles";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronLeft, faChevronRight, faClock } from "@fortawesome/free-solid-svg-icons";
+import { Container, Button, TimerWrapper } from "./HeaderBar.styles.js";
 
 const HeaderBar = ({ onPrev, onNext }) => {
   return (
     <Container>
       {/* Prev Button */}
       <Button onClick={onPrev}>
-        <ChevronLeft size={32} />
+        <FontAwesomeIcon icon={faChevronLeft} size="xl" />
         <span>Prev</span>
       </Button>
 
       {/* Timer */}
       <TimerWrapper>
-        <Timer size={16} />
+        <FontAwesomeIcon icon={faClock} />
         <span>00H : 14M : 13S</span>
       </TimerWrapper>
 
       {/* Next Button */}
       <Button onClick={onNext}>
         <span>Next</span>
-        <ChevronRight size={32} />
+        <FontAwesomeIcon icon={faChevronRight} size="xl" />
       </Button>
     </Container>
   );
